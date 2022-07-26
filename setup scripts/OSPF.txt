@@ -1,0 +1,93 @@
+OSPF Configurations on Routers
+
+Lucani
+
+router OSPF 1
+network 67.144.6.224 0.0.0.31 area 0 
+network 67.144.7.240 0.0.0.3 area 0 
+network 67.144.3.0 0.0.0.255 area 0 
+network 67.144.7.128 0.0.0.15 area 0 
+network 67.144.7.144 0.0.0.15 area 0 
+network 67.144.7.160 0.0.0.15 area 0 
+network 67.144.7.252 0.0.0.3 area 0 
+network 67.144.8.0 0.0.0.3 area 0 
+
+
+passive-interface default
+no passive-interface s0/1/0
+no passive-interface s0/1/1
+
+
+Ljubis
+
+router OSPF 2
+network 67.144.6.192 0.0.0.31 area 0 
+network 67.144.7.236 0.0.0.3 area 0 
+network 67.144.6.0 0.0.0.127 area 0 
+network 67.144.7.80 0.0.0.15 area 0 
+network 67.144.7.96 0.0.0.15 area 0 
+network 67.144.7.112 0.0.0.15 area 0 
+network 67.144.7.252 0.0.0.3 area 0 
+network 67.144.8.4 0.0.0.3 area 0 
+
+
+passive-interface default
+no passive-interface s0/1/0
+no passive-interface s0/2/0
+
+
+
+Guca
+
+router OSPF 3
+network 67.144.6.128 0.0.0.31 area 0
+network 67.144.7.232 0.0.0.3 area 0 
+network 67.144.4.0 0.0.0.255 area 0 
+network 67.144.7.32 0.0.0.15 area 0 
+network 67.144.7.48 0.0.0.15 area 0 
+network 67.144.7.64 0.0.0.15 area 0 
+network 67.144.2.0 0.0.0.255 area 0 
+network 67.144.0.0 0.0.3.255 area 0 
+network 67.144.6.160 0.0.0.31 area 0 
+
+network 67.144.7.252 0.0.0.3 area 0 
+network 67.144.7.248 0.0.0.3 area 0 
+
+
+passive-interface default
+no passive-interface s0/1/1
+no passive-interface s0/1/0
+
+
+
+Mackat
+
+router OSPF 4
+network 67.144.6.224 0.0.0.31 area 0 
+network 67.144.7.240 0.0.0.3 area 0 
+network 67.144.4.0 0.0.0.255 area 0 
+network 67.144.7.128 0.0.0.15 area 0 
+network 67.144.7.144 0.0.0.15 area 0 
+network 67.144.7.160 0.0.0.15 area 0 
+network 67.144.3.0 0.0.0.255 area 0 
+
+
+network 67.144.8.4 0.0.0.3 area 0 
+network 67.144.7.248 0.0.0.3 area 0 
+ip route 0.0.0.0 0.0.0.0 s0/1/1
+default-information originate
+
+passive-interface loopback 0
+passive-interface g0/0/1.111
+passive-interface g0/0/1.10
+passive-interface g0/0/1.11
+passive-interface g0/0/1.12
+passive-interface g0/0/1.16
+passive-interface g0/0/1.200
+
+
+Mackat ISP
+
+ip route 67.144.0.0 255.255.240.0 s0/1/1
+
+bandwidth 256

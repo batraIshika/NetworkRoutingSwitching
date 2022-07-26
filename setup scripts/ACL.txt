@@ -1,0 +1,109 @@
+At Guca
+
+
+server 1+2
+business tcp deny
+
+ip access-list extended ACLVLAN15
+    remark Deny HTTP access to server1 and permit server2 access from Business VLAN15
+    deny tcp 67.144.0.0 0.0.1.255 host 67.144.6.162 eq www
+    permit tcp 67.144.0.0 0.0.1.255 host 67.144.6.163 eq www
+    deny ip 67.144.0.0 0.0.1.255 host 67.144.6.163
+permit ip any any
+
+
+server 3
+ip access-list extended ACLVLAN10
+    remark Permit HTTP access to server3 and deny tcp access server1 and no access to server2 from Security VLAN10
+    deny tcp 67.144.7.32 0.0.0.15 host 67.144.6.162 eq www
+    deny ip 67.144.7.32 0.0.0.15 host 67.144.6.163
+    permit tcp 67.144.7.32 0.0.0.15 host 67.144.6.164 eq www
+permit ip any any
+
+
+ip access-list extended ACLVLAN14
+    remark Marketing denied access to leasing
+    permit icmp 67.144.2.0 0.0.0.255 67.144.4.0 0.0.0.255 echo-reply
+    deny icmp 67.144.2.0 0.0.0.255 67.144.4.0 0.0.0.255
+permit ip any any
+ip access-list extended ACLVLAN14
+    remark Marketing denied access to leasing
+    deny ip 67.144.2.0 0.0.0.255 67.144.4.0 0.0.0.255
+permit ip any any
+
+
+ip access-list extended ACLVLAN12
+    remark Vehicle Services Denied access to Other vlans
+    permit icmp 67.144.7.64 0.0.0.15 67.144.0.0 0.0.1.255 echo-reply
+    permit icmp 67.144.7.64 0.0.0.15 67.144.4.0 0.0.0.255 echo-reply
+    permit icmp 67.144.7.64 0.0.0.15 67.144.2.0 0.0.0.255 echo-reply
+    permit icmp 67.144.7.64 0.0.0.15 67.144.6.128 0.0.0.31 echo-reply
+    permit icmp 67.144.7.64 0.0.0.15 67.144.7.232 0.0.0.3 echo-reply
+    permit icmp 67.144.7.64 0.0.0.15 67.144.7.32 0.0.0.15 echo-reply
+    permit icmp 67.144.7.64 0.0.0.15 67.144.7.48 0.0.0.15 echo-reply
+    deny icmp 67.144.7.64 0.0.0.15 67.144.0.0 0.0.1.255
+    deny icmp 67.144.7.64 0.0.0.15 67.144.4.0 0.0.0.255
+    deny icmp 67.144.7.64 0.0.0.15 67.144.2.0 0.0.0.255
+    deny icmp 67.144.7.64 0.0.0.15 67.144.6.128 0.0.0.31
+    deny icmp 67.144.7.64 0.0.0.15 67.144.7.232 0.0.0.3
+    deny icmp 67.144.7.64 0.0.0.15 67.144.7.32 0.0.0.15
+    deny icmp 67.144.7.64 0.0.0.15 67.144.7.48 0.0.0.15
+permit ip any any
+ip access-list extended ACLVLAN12
+    remark Vehicle Services Denied access to Other vlans
+    deny ip 67.144.7.64 0.0.0.15 67.144.0.0 0.0.1.255
+    deny ip 67.144.7.64 0.0.0.15 67.144.4.0 0.0.0.255
+    deny ip 67.144.7.64 0.0.0.15 67.144.2.0 0.0.0.255
+    deny ip 67.144.7.64 0.0.0.15 67.144.6.128 0.0.0.31
+    deny ip 67.144.7.64 0.0.0.15 67.144.7.232 0.0.0.3
+    deny ip 67.144.7.64 0.0.0.15 67.144.7.32 0.0.0.15
+    deny ip 67.144.7.64 0.0.0.15 67.144.7.48 0.0.0.15
+permit ip any any
+
+
+ip access-list extended ACLVLAN11
+    remark All other Vlans denied access to Tech Support
+    permit icmp 67.144.0.0 0.0.1.255 67.144.7.48 0.0.0.15 echo-reply
+    deny icmp 67.144.0.0 0.0.1.255 67.144.7.48 0.0.0.15
+    permit icmp 67.144.4.0 0.0.0.255 67.144.7.48 0.0.0.15 echo-reply
+    deny icmp 67.144.4.0 0.0.0.255 67.144.7.48 0.0.0.15
+    permit icmp 67.144.6.128 0.0.0.15 67.144.7.48 0.0.0.15 echo-reply
+    deny icmp 67.144.6.128 0.0.0.15 67.144.7.48 0.0.0.15
+    permit icmp 67.144.2.0 0.0.0.255 67.144.7.48 0.0.0.15 echo-reply
+    deny icmp 67.144.2.0 0.0.0.255 67.144.7.48 0.0.0.15
+    permit icmp 67.144.7.232 0.0.0.3 67.144.7.48 0.0.0.15 echo-reply
+    deny icmp 67.144.7.232 0.0.0.3 67.144.7.48 0.0.0.15 
+    permit icmp 67.144.7.32 0.0.0.15 67.144.7.48 0.0.0.15 echo-reply
+    deny icmp 67.144.7.32 0.0.0.15 67.144.7.48 0.0.0.15 
+    permit icmp 67.144.7.64 0.0.0.15 67.144.7.48 0.0.0.15 echo-reply
+    deny icmp 67.144.7.64 0.0.0.15 67.144.7.48 0.0.0.15
+permit ip any any
+ip access-list extended ACLVLAN11
+    remark All other Vlans denied access to Tech Support
+    deny ip 67.144.0.0 0.0.1.255 67.144.7.48 0.0.0.15
+    deny ip 67.144.4.0 0.0.0.255 67.144.7.48 0.0.0.15
+    deny ip 67.144.6.128 0.0.0.15 67.144.7.48 0.0.0.15
+    deny ip 67.144.2.0 0.0.0.255 67.144.7.48 0.0.0.15
+    deny ip 67.144.7.232 0.0.0.3 67.144.7.48 0.0.0.15 
+    deny ip 67.144.7.32 0.0.0.15 67.144.7.48 0.0.0.15 
+    deny ip 67.144.7.64 0.0.0.15 67.144.7.48 0.0.0.15
+permit ip any any
+
+
+ip access-list extended ACLVLAN11
+    remark All other Vlans denied access to Tech Support
+    deny icmp 67.144.7.48 0.0.0.15 67.144.0.0 0.0.1.255 echo-reply
+    permit icmp 67.144.7.48 0.0.0.15 67.144.0.0 0.0.1.255 
+    deny icmp 67.144.7.48 0.0.0.15 67.144.4.0 0.0.0.255 echo-reply
+    permit icmp 67.144.7.48 0.0.0.15 67.144.4.0 0.0.0.255 
+    deny icmp 67.144.7.48 0.0.0.15 67.144.6.128 0.0.0.15 echo-reply
+    permit icmp 67.144.7.48 0.0.0.15 67.144.6.128 0.0.0.15 
+    deny icmp 67.144.7.48 0.0.0.15 67.144.2.0 0.0.0.255 echo-reply
+    permit icmp 67.144.7.48 0.0.0.15 67.144.2.0 0.0.0.255 
+    deny icmp 67.144.7.48 0.0.0.15 67.144.7.232 0.0.0.3 echo-reply
+    permit icmp 67.144.7.48 0.0.0.15 67.144.7.232 0.0.0.3 
+    deny icmp 67.144.7.48 0.0.0.15 67.144.7.32 0.0.0.15 echo-reply
+    permit icmp 67.144.7.48 0.0.0.15 67.144.7.32 0.0.0.15 
+    deny icmp 67.144.7.48 0.0.0.15 67.144.7.64 0.0.0.15 echo-reply
+    permit icmp 67.144.7.48 0.0.0.15 67.144.7.64 0.0.0.15 
+permit ip any any

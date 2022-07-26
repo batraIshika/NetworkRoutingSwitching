@@ -1,0 +1,27 @@
+# lucani Scripts
+
+## Routers
+
+### Router lucani R1 fix sub interface descriptions
+en
+configure terminal
+  interface GigabitEthernet0/0/1.10
+    description Connection to Lucani Security
+    exit
+  interface GigabitEthernet0/0/1.11
+    description Connection to Lucani Technical
+    exit
+  interface GigabitEthernet0/0/1.12
+    description Connection to Lucani Vehicle
+    exit
+  interface GigabitEthernet0/0/1.16
+    description Connection to Lucani Sales
+    exit
+  interface GigabitEthernet0/0/1.111
+    description Connection to Lucani Management
+    exit
+  interface GigabitEthernet0/0/1.200
+    description Connection to Lucani Printer
+    exit
+  exit
+end

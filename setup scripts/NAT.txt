@@ -1,0 +1,145 @@
+NAT
+
+NAT pool address 147.9.0.0/21 - 255.255.248.0
+
+servers
+ip nat inside source static 67.144.6.162 147.9.0.1
+ip nat inside source static 67.144.6.163 147.9.0.2
+ip nat inside source static 67.144.6.164 147.9.0.3
+
+
+mackat
+ip nat pool mPOOLVLAN16 147.9.0.4 147.9.0.172 netmask 255.255.248.0
+ip nat pool mPOOLVLAN10 147.9.0.173 147.9.0.179 netmask 255.255.248.0
+ip nat pool mPOOLVLAN11 147.9.0.180 147.9.0.186 netmask 255.255.248.0
+ip nat pool mPOOLVLAN12 147.9.0.187 147.9.0.193 netmask 255.255.248.0
+
+guca
+ip nat pool gPOOLVLAN15 147.9.0.194 147.9.1.208 netmask 255.255.248.0
+ip nat pool gPOOLVLAN13 147.9.1.209 147.9.2.122 netmask 255.255.248.0
+ip nat pool gPOOLVLAN14 147.9.2.123 147.9.3.110 netmask 255.255.248.0
+ip nat pool gPOOLVLAN10 147.9.3.111 147.9.3.117 netmask 255.255.248.0
+ip nat pool gPOOLVLAN11 147.9.3.118 147.9.3.124 netmask 255.255.248.0
+ip nat pool gPOOLVLAN12 147.9.3.125 147.9.3.131 netmask 255.255.248.0
+
+ljubis
+ip nat pool ljPOOLVLAN13 147.9.3.132 147.9.3.239 netmask 255.255.248.0
+ip nat pool ljPOOLVLAN10 147.9.3.240 147.9.3.246 netmask 255.255.248.0
+ip nat pool ljPOOLVLAN11 147.9.3.247 147.9.3.253 netmask 255.255.248.0
+ip nat pool ljPOOLVLAN12 147.9.3.254 147.9.4.4 netmask 255.255.248.0
+
+lucani
+ip nat pool luPOOLVLAN16 147.9.4.5 147.9.4.19 netmask 255.255.248.0
+ip nat pool luPOOLVLAN10 147.9.4.20 147.9.4.26 netmask 255.255.248.0
+ip nat pool luPOOLVLAN11 147.9.4.27 147.9.4.33 netmask 255.255.248.0
+ip nat pool luPOOLVLAN12 147.9.4.34 147.9.4.40 netmask 255.255.248.0
+
+management
+ip nat pool mPOOLVLAN111 147.9.4.41 147.9.4.55 netmask 255.255.248.0
+ip nat pool gPOOLVLAN111 147.9.4.56 147.9.4.75 netmask 255.255.248.0
+ip nat pool ljPOOLVLAN111 147.9.4.76 147.9.4.90 netmask 255.255.248.0
+ip nat pool luPOOLVLAN111 147.9.4.91 147.9.4.105 netmask 255.255.248.0
+
+
+mackat 
+
+Ip access-list extended mACLVLAN16
+  Permit ip 67.144.5.0 0.0.0.255 any
+Ip access-list extended mACLVLAN10
+  Permit ip 67.144.7.176 0.0.0.15 any
+Ip access-list extended mACLVLAN11
+  Permit ip 67.144.7.192 0.0.0.15 any
+Ip access-list extended mACLVLAN12
+  Permit ip 67.144.7.208 0.0.0.15 any
+Ip access-list extended mACLVLAN111
+  Permit ip 67.144.7.0 0.0.0.31 any
+
+guca 
+
+Ip access-list extended gACLVLAN15
+  Permit ip 67.144.0.0 0.0.1.255 any
+Ip access-list extended gACLVLAN13
+  Permit ip 67.144.4.0 0.0.0.255 any
+Ip access-list extended gACLVLAN111
+  Permit ip 67.144.6.128 0.0.0.31 any
+Ip access-list extended gACLVLAN14
+  Permit ip 67.144.2.0 0.0.0.255 any
+Ip access-list extended gACLVLAN10
+  Permit ip 67.144.7.32 0.0.0.15 any
+Ip access-list extended gACLVLAN11
+  Permit ip 67.144.7.48 0.0.0.15 any
+Ip access-list extended gACLVLAN12
+  Permit ip 67.144.7.64 0.0.0.15 any
+
+lucani
+
+Ip access-list extended luACLVLAN111
+  Permit ip 67.144.6.224 0.0.0.31 any
+Ip access-list extended luACLVLAN16
+  Permit ip 67.144.3.0 0.0.0.255 any
+Ip access-list extended luACLVLAN10
+  Permit ip 67.144.7.128 0.0.0.15 any
+Ip access-list extended luACLVLAN11
+  Permit ip 67.144.7.144 0.0.0.15 any
+Ip access-list extended luACLVLAN12
+  Permit ip 67.144.7.160 0.0.0.15 any
+
+ljubis
+Ip access-list extended ljACLVLAN13
+  Permit ip 67.144.6.0 0.0.0.127 any
+Ip access-list extended ljACLVLAN111
+  Permit ip 67.144.6.192 0.0.0.31 any
+Ip access-list extended ljACLVLAN10
+  Permit ip 67.144.7.80 0.0.0.15 any
+Ip access-list extended ljACLVLAN11
+  Permit ip 67.144.7.96 0.0.0.15 any
+Ip access-list extended ljACLVLAN12
+  Permit ip 67.144.7.112 0.0.0.15 any
+
+
+
+
+
+
+Ip nat inside source list mACLVLAN16 pool mPOOLVLAN16 overload
+Ip nat inside source list mACLVLAN111 pool mPOOLVLAN111 overload
+Ip nat inside source list mACLVLAN10 pool mPOOLVLAN10 overload
+Ip nat inside source list mACLVLAN11 pool mPOOLVLAN11 overload
+Ip nat inside source list mACLVLAN12 pool mPOOLVLAN12 overload
+
+
+Ip nat inside source list gACLVLAN14 pool gPOOLVLAN14 overload
+Ip nat inside source list gACLVLAN111 pool gPOOLVLAN111 overload
+Ip nat inside source list gACLVLAN10 pool gPOOLVLAN10 overload
+Ip nat inside source list gACLVLAN11 pool gPOOLVLAN11 overload
+Ip nat inside source list gACLVLAN12 pool gPOOLVLAN12 overload
+Ip nat inside source list gACLVLAN13 pool gPOOLVLAN13 overload
+Ip nat inside source list gACLVLAN15 pool gPOOLVLAN15 overload
+
+
+Ip nat inside source list ljACLVLAN13 pool ljPOOLVLAN13 overload
+Ip nat inside source list ljACLVLAN111 pool ljPOOLVLAN111 overload
+Ip nat inside source list ljACLVLAN10 pool ljPOOLVLAN10 overload
+Ip nat inside source list ljACLVLAN11 pool ljPOOLVLAN11 overload
+Ip nat inside source list ljACLVLAN12 pool ljPOOLVLAN12 overload
+
+
+Ip nat inside source list luACLVLAN16 pool luPOOLVLAN16 overload
+Ip nat inside source list luACLVLAN111 pool luPOOLVLAN111 overload
+Ip nat inside source list luACLVLAN10 pool luPOOLVLAN10 overload
+Ip nat inside source list luACLVLAN11 pool luPOOLVLAN11 overload
+Ip nat inside source list luACLVLAN12 pool luPOOLVLAN12 overload
+
+
+
+int s0/1/0
+    ip nat inside
+
+int s0/2/0
+    ip nat inside
+
+int s0/1/1
+    ip nat outside
+
+
+

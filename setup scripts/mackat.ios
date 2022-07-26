@@ -1,0 +1,213 @@
+# Mackat Scripts
+
+## Routers
+
+### Router Mackat R1
+enable
+configure terminal
+  hostname MackatR1
+  no ip domain lookup
+  banner motd "Warning, authorised use only!"
+  line console 0
+    logging synchronous
+    exec-timeout 0 0
+    exit
+  ! to guca
+  interface Serial0/1/0
+    no shutdown
+    ip address 67.144.7.249 255.255.255.252
+    exit
+  ! to ljubis
+  interface Serial0/2/0
+    no shutdown
+    ip address 67.144.8.6 255.255.255.252
+    exit
+  ! to isp
+  interface Serial0/1/1
+    no shutdown
+    ip address 214.2.9.2 255.255.255.252
+    exit
+  interface GigabitEthernet0/0/1
+    no shutdown
+    exit
+  interface GigabitEthernet0/0/1.111
+    description Connection to Mackat Management
+    encapsulation dot1Q 111
+    ip address 67.144.7.1 255.255.255.224
+    exit
+  interface GigabitEthernet0/0/1.200
+    description Connection to Mackat Printer
+    encapsulation dot1Q 200
+    ip address 67.144.7.245 255.255.255.252
+    exit
+  interface GigabitEthernet0/0/1.16
+    description Connection to Mackat Sales
+    encapsulation dot1Q 16
+    ip address 67.144.5.1 255.255.255.0
+    exit
+  interface GigabitEthernet0/0/1.10
+    description Connection to Mackat Security
+    encapsulation dot1Q 10
+    ip address 67.144.7.177 255.255.255.240
+    exit
+  interface GigabitEthernet0/0/1.11
+    description Connection to Mackat Technical
+    encapsulation dot1Q 11
+    ip address 67.144.7.193 255.255.255.240
+    exit
+  interface GigabitEthernet0/0/1.12
+    description Connection to Mackat Vehicle
+    encapsulation dot1Q 12
+    ip address 67.144.7.209 255.255.255.240
+    exit
+  exit
+end
+
+### Router Guca R1 fix sub interface descriptions
+en
+configure terminal
+  interface GigabitEthernet0/0/1.111
+    description Connection to Mackat Management
+    exit
+  interface GigabitEthernet0/0/1.200
+    description Connection to Mackat Printer
+    exit
+  interface GigabitEthernet0/0/1.16
+    description Connection to Mackat Sales
+    exit
+  interface GigabitEthernet0/0/1.10
+    description Connection to Mackat Security
+    exit
+  interface GigabitEthernet0/0/1.11
+    description Connection to Mackat Technical
+    exit
+  interface GigabitEthernet0/0/1.12
+    description Connection to Mackat Vehicle
+    exit
+  exit
+end
+
+### Router Mackat ISP
+enable
+configure terminal
+  hostname MackatISP
+  no ip domain lookup
+  banner motd "Warning, authorised use only!"
+  line console 0
+    logging synchronous
+    exec-timeout 0 0
+    exit
+  interface Serial0/1/1
+    no shutdown
+    ip address 214.2.9.1 255.255.255.252
+    exit
+  interface GigabitEthernet0/0/0
+    ip address 147.24.2.1 255.255.255.252
+    exit
+  exit
+end
+
+## Switches
+enable
+configure terminal
+  ip default-gateway 67.144.7.1
+  no ip domain lookup
+  banner motd "Warning, authorised use only!"
+  line console 0
+    logging synchronous
+    exec-timeout 0 0
+    exit
+  vlan 111
+    name Mackat_Management
+    exit
+  vlan 200
+    name Mackat_Printer
+    exit
+  vlan 16
+    name Mackat_Sales
+    exit
+  vlan 10
+    name Mackat_Security
+    exit
+  vlan 11
+    name Mackat_Technical
+    exit
+  vlan 12
+    name Mackat_Vehicle
+    exit
+  exit
+end
+
+### Switch DLS Mackat S1
+enable
+configure terminal
+  hostname DLSMackatS1
+  interface vlan 111
+    ip address 67.144.7.2 255.255.255.224
+    exit
+  interface range GigabitEthernet1/0/1, GigabitEthernet1/0/2, GigabitEthernet1/0/11
+    no shutdown
+    switchport mode trunk
+    exit
+  exit
+end
+
+### Switch ALS Mackat S2
+enable
+configure terminal
+  hostname ALSMackatS2
+  interface vlan 111
+    ip address 67.144.7.3 255.255.255.224
+    exit
+  ! to other switches
+  interface range FastEthernet0/4-5
+    no shutdown
+    switchport mode trunk
+    exit
+  ! to sales
+  interface FastEthernet0/1
+    no shutdown
+    switchport mode access
+    switchport access vlan 16
+    exit
+  ! to technical
+  interface FastEthernet0/2
+    no shutdown
+    switchport mode access
+    switchport access vlan 11
+    exit
+  exit
+end
+
+### Switch ALS Mackat S1
+enable
+configure terminal
+  hostname ALSMackatS1
+  interface vlan 111
+    ip address 67.144.7.4 255.255.255.224
+    exit
+  ! to other switches
+  interface range FastEthernet0/4-5
+    no shutdown
+    switchport mode trunk
+    exit
+  ! to security
+  interface FastEthernet0/1
+    no shutdown
+    switchport mode access
+    switchport access vlan 10
+    exit
+  ! to vehicle
+  interface FastEthernet0/2
+    no shutdown
+    switchport mode access
+    switchport access vlan 12
+    exit
+  ! to printer
+  interface FastEthernet0/3
+    no shutdown
+    switchport mode access
+    switchport access vlan 200
+    exit
+  exit
+end
